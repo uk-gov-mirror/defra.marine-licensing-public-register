@@ -39,7 +39,7 @@ services:
 
   ################################################################################
 
-  cdp-node-backend-template:
+  marine-licensing-public-register:
     build:
       context: .
       target: development
