@@ -1,0 +1,53 @@
+describe('#swagger', () => {
+  let server
+
+  beforeAll(async () => {
+    const { createServer } = await import('#/server.js')
+
+    server = await createServer()
+    await server.initialize()
+  })
+
+  test('Should serve Redoc documentation page', async () => {
+    const { statusCode, headers, payload } = await server.inject({
+      method: 'GET',
+      url: '/documentation'
+    })
+
+    expect(statusCode).toBe(200)
+    expect(headers['content-type']).toContain('text/html')
+    expect(payload).toContain('redoc')
+    expect(payload).toContain('/swagger.json')
+    expect(payload).toContain(
+      'Marine Licensing Public Register API Documentation'
+    )
+  })
+
+  test('Should serve OpenAPI spec for the example endpoints', async () => {
+    const { statusCode, result } = await server.inject({
+      method: 'GET',
+      url: '/swagger.json'
+    })
+
+    expect(statusCode).toBe(200)
+    expect(result.info.title).toBe(
+      'Marine Licensing Public Register API Documentation'
+    )
+    expect(result.info.version).toBe('1.0.0')
+    expect(result.info.description).toBe(
+      'API documentation for the Marine Licensing Public Register'
+    )
+    expect(result.paths['/example'].get).toEqual(
+      expect.objectContaining({
+        summary: 'List example records',
+        tags: expect.arrayContaining(['example'])
+      })
+    )
+    expect(result.paths['/example/{exampleId}'].get).toEqual(
+      expect.objectContaining({
+        summary: 'Get an example record',
+        tags: expect.arrayContaining(['example'])
+      })
+    )
+  })
+})
