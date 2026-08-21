@@ -9,6 +9,7 @@ import { mongoDb } from '#/plugins/mongodb.js'
 import { failAction } from '#/common/helpers/fail-action.js'
 import { pulse } from '#/plugins/pulse.js'
 import { requestTracing } from '#/plugins/request-tracing.js'
+import { swagger } from '#/plugins/swagger.js'
 import { metrics } from '@defra/cdp-metrics'
 
 export async function createServer() {
@@ -44,6 +45,7 @@ export async function createServer() {
   // secureContext  - loads CA certificates from environment config
   // pulse          - provides shutdown handlers
   // mongoDb        - sets up mongo connection pool and attaches to `server` and `request` objects
+  // swagger        - OpenAPI spec at /swagger.json and Redoc docs at /documentation
   // router         - routes used in the app
   await server.register([
     requestLogger,
@@ -55,6 +57,7 @@ export async function createServer() {
       plugin: mongoDb,
       options: config.get('mongo')
     },
+    swagger,
     router
   ])
 
