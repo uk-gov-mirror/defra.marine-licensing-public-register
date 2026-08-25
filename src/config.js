@@ -126,6 +126,48 @@ export const config = convict({
       default: 'x-cdp-request-id',
       env: 'TRACING_HEADER'
     }
+  },
+  aws: {
+    region: {
+      doc: 'AWS region',
+      format: String,
+      default: 'eu-west-2',
+      env: 'AWS_REGION'
+    },
+    sqs: {
+      endpoint: {
+        doc: 'AWS SQS endpoint. Use LocalStack locally (e.g. from marine-licensing-backend); CDP injects SQS_ENDPOINT in deployed environments.',
+        format: String,
+        default: 'http://localhost:4566',
+        env: 'SQS_ENDPOINT'
+      }
+    }
+  },
+  publicRegister: {
+    isEnabled: {
+      doc: 'Enable the public register SQS consumer',
+      format: Boolean,
+      default: !isTest,
+      env: 'PUBLIC_REGISTER_SQS_ENABLED'
+    },
+    sqsQueueName: {
+      doc: 'Consumer-owned SQS queue subscribed to marine_licensing_public_register',
+      format: String,
+      default: 'marine_licensing_public_register',
+      env: 'PUBLIC_REGISTER_SQS_QUEUE_NAME'
+    },
+    sqsDlqName: {
+      doc: 'Dead-letter queue created by CDP for the public register SQS queue',
+      format: String,
+      default: 'marine_licensing_public_register-deadletter',
+      env: 'PUBLIC_REGISTER_SQS_DLQ_NAME'
+    },
+    sqsMaxReceiveCount: {
+      doc: 'Delivery attempts before SQS dead-letters a message; must match the queue RedrivePolicy',
+      format: Number,
+      default: 3,
+      env: 'PUBLIC_REGISTER_SQS_MAX_RECEIVE_COUNT'
+    }
   }
 })
 
