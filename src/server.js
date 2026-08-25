@@ -10,6 +10,7 @@ import { failAction } from '#/common/helpers/fail-action.js'
 import { pulse } from '#/plugins/pulse.js'
 import { requestTracing } from '#/plugins/request-tracing.js'
 import { swagger } from '#/plugins/swagger.js'
+import { publicRegisterWorkerPlugin } from '#/plugins/public-register-worker.js'
 import { metrics } from '@defra/cdp-metrics'
 
 export async function createServer() {
@@ -47,6 +48,7 @@ export async function createServer() {
   // mongoDb        - sets up mongo connection pool and attaches to `server` and `request` objects
   // swagger        - OpenAPI spec at /swagger.json and Redoc docs at /documentation
   // router         - routes used in the app
+  // publicRegisterWorkerPlugin - consumes consented exemption submissions from SQS
   await server.register([
     requestLogger,
     requestTracing,
@@ -57,6 +59,7 @@ export async function createServer() {
       plugin: mongoDb,
       options: config.get('mongo')
     },
+    publicRegisterWorkerPlugin,
     swagger,
     router
   ])
