@@ -12,7 +12,7 @@ describe('parseMessageBody', () => {
     const payload = {
       applicationType: 'exemption',
       eventType: 'submitted',
-      exemptionId: '64f1',
+      applicationId: '64f1',
       applicationReference: 'EXE/2026/00012'
     }
     const message = { Body: JSON.stringify(payload) }
@@ -28,7 +28,7 @@ describe('parseMessageBody', () => {
     const payload = {
       applicationType: 'exemption',
       eventType: 'submitted',
-      exemptionId: '64f1',
+      applicationId: '64f1',
       applicationReference: 'EXE/2026/00012'
     }
     const message = {
@@ -66,7 +66,7 @@ describe('parseMessageBody', () => {
 
 describe('unwrapSnsNotification', () => {
   it('should return the body unchanged when it is not an SNS envelope', () => {
-    const body = { exemptionId: '64f1' }
+    const body = { applicationId: '64f1' }
     expect(unwrapSnsNotification(body)).toEqual(body)
   })
 })

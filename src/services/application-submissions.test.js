@@ -26,7 +26,7 @@ describe('#upsertApplicationSubmission', () => {
   const record = {
     applicationType: 'exemption',
     eventType: 'submitted',
-    exemptionId: '64f1abc',
+    applicationId: '64f1abc',
     applicationReference: 'EXE/2026/00012'
   }
 
@@ -35,7 +35,7 @@ describe('#upsertApplicationSubmission', () => {
 
     const stored = await server.db
       .collection(APPLICATION_SUBMISSIONS_COLLECTION)
-      .find({ exemptionId: record.exemptionId }, { projection: { _id: 0 } })
+      .find({ applicationId: record.applicationId }, { projection: { _id: 0 } })
       .toArray()
 
     expect(stored).toHaveLength(1)
@@ -43,7 +43,7 @@ describe('#upsertApplicationSubmission', () => {
       expect.objectContaining({
         applicationType: 'exemption',
         eventType: 'submitted',
-        exemptionId: '64f1abc',
+        applicationId: '64f1abc',
         applicationReference: 'EXE/2026/00012'
       })
     )
@@ -51,7 +51,7 @@ describe('#upsertApplicationSubmission', () => {
     expect(stored[0].updatedAt).toBeInstanceOf(Date)
   })
 
-  test('Should upsert by exemptionId and not create a duplicate', async () => {
+  test('Should upsert by applicationId and not create a duplicate', async () => {
     await upsertApplicationSubmission(server.db, record)
     await upsertApplicationSubmission(server.db, {
       ...record,
@@ -60,7 +60,7 @@ describe('#upsertApplicationSubmission', () => {
 
     const stored = await server.db
       .collection(APPLICATION_SUBMISSIONS_COLLECTION)
-      .find({ exemptionId: record.exemptionId })
+      .find({ applicationId: record.applicationId })
       .toArray()
 
     expect(stored).toHaveLength(1)

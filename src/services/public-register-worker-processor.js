@@ -11,7 +11,7 @@ const isNonEmptyString = (value) =>
 const requiredFields = [
   'applicationType',
   'eventType',
-  'exemptionId',
+  'applicationId',
   'applicationReference'
 ]
 
@@ -39,7 +39,7 @@ export const processPublicRegisterMessage = async (server, message) => {
   const record = {
     applicationType: body.applicationType,
     eventType: body.eventType,
-    exemptionId: body.exemptionId,
+    applicationId: body.applicationId,
     applicationReference: body.applicationReference
   }
 

@@ -48,5 +48,5 @@ async function createIndexes(db) {
 
   await db
     .collection(APPLICATION_SUBMISSIONS_COLLECTION)
-    .createIndex({ exemptionId: 1 }, { unique: true })
+    .createIndex({ applicationId: 1 }, { unique: true })
 }

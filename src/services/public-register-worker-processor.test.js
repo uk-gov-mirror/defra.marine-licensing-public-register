@@ -16,7 +16,7 @@ const sqsQueueName = 'marine_licensing_public_register'
 const payload = {
   applicationType: 'exemption',
   eventType: 'submitted',
-  exemptionId: '64f1abc',
+  applicationId: '64f1abc',
   applicationReference: 'EXE/2026/00012'
 }
 
@@ -89,7 +89,7 @@ describe('processPublicRegisterMessage', () => {
     await expect(
       processPublicRegisterMessage(server, buildMessage(withoutId))
     ).rejects.toThrow(
-      'Public register message is missing required field exemptionId'
+      'Public register message is missing required field applicationId'
     )
 
     expect(upsertApplicationSubmission).not.toHaveBeenCalled()

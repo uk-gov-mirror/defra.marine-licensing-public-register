@@ -4,10 +4,10 @@ export async function upsertApplicationSubmission(db, record) {
   const now = new Date()
 
   await db.collection(APPLICATION_SUBMISSIONS_COLLECTION).updateOne(
-    { exemptionId: record.exemptionId },
+    { applicationId: record.applicationId },
     {
       $set: {
-        exemptionId: record.exemptionId,
+        applicationId: record.applicationId,
         applicationType: record.applicationType,
         eventType: record.eventType,
         applicationReference: record.applicationReference,
