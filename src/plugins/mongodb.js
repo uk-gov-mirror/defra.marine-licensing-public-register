@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb'
 import { LockManager } from 'mongo-locks'
 
-import { EXEMPTION_SUBMISSIONS_COLLECTION } from '#/services/exemption-submissions.js'
+import { APPLICATION_SUBMISSIONS_COLLECTION } from '#/services/application-submissions.js'
 
 export const mongoDb = {
   plugin: {
@@ -47,6 +47,6 @@ async function createIndexes(db) {
   await db.collection('example-data').createIndex({ id: 1 })
 
   await db
-    .collection(EXEMPTION_SUBMISSIONS_COLLECTION)
+    .collection(APPLICATION_SUBMISSIONS_COLLECTION)
     .createIndex({ exemptionId: 1 }, { unique: true })
 }

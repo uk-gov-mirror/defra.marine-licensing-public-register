@@ -1,14 +1,14 @@
 import { vi } from 'vitest'
 import { processPublicRegisterMessage } from './public-register-worker-processor.js'
 import { deletePublicRegisterMessage } from './public-register-sqs-client.js'
-import { upsertExemptionSubmission } from './exemption-submissions.js'
+import { upsertApplicationSubmission } from './application-submissions.js'
 
 vi.mock('./public-register-sqs-client.js', () => ({
   deletePublicRegisterMessage: vi.fn()
 }))
 
-vi.mock('./exemption-submissions.js', () => ({
-  upsertExemptionSubmission: vi.fn()
+vi.mock('./application-submissions.js', () => ({
+  upsertApplicationSubmission: vi.fn()
 }))
 
 const sqsQueueName = 'marine_licensing_public_register'
@@ -42,7 +42,7 @@ describe('processPublicRegisterMessage', () => {
       payload,
       'Received public register message for EXE/2026/00012'
     )
-    expect(upsertExemptionSubmission).toHaveBeenCalledWith(server.db, payload)
+    expect(upsertApplicationSubmission).toHaveBeenCalledWith(server.db, payload)
     expect(deletePublicRegisterMessage).toHaveBeenCalledWith(
       sqsQueueName,
       'receipt-1'
@@ -58,7 +58,7 @@ describe('processPublicRegisterMessage', () => {
 
     await processPublicRegisterMessage(server, message)
 
-    expect(upsertExemptionSubmission).toHaveBeenCalledWith(server.db, payload)
+    expect(upsertApplicationSubmission).toHaveBeenCalledWith(server.db, payload)
     expect(deletePublicRegisterMessage).toHaveBeenCalledWith(
       sqsQueueName,
       'receipt-1'
@@ -71,7 +71,7 @@ describe('processPublicRegisterMessage', () => {
     await processPublicRegisterMessage(server, buildMessage('not json'))
 
     expect(server.logger.error).toHaveBeenCalled()
-    expect(upsertExemptionSubmission).not.toHaveBeenCalled()
+    expect(upsertApplicationSubmission).not.toHaveBeenCalled()
     expect(deletePublicRegisterMessage).toHaveBeenCalledWith(
       sqsQueueName,
       'receipt-1'
@@ -92,13 +92,13 @@ describe('processPublicRegisterMessage', () => {
       'Public register message is missing required field exemptionId'
     )
 
-    expect(upsertExemptionSubmission).not.toHaveBeenCalled()
+    expect(upsertApplicationSubmission).not.toHaveBeenCalled()
     expect(deletePublicRegisterMessage).not.toHaveBeenCalled()
   })
 
   it('does not delete the message when upsert fails so SQS can retry then dead-letter it', async () => {
     const server = buildServer()
-    vi.mocked(upsertExemptionSubmission).mockRejectedValueOnce(
+    vi.mocked(upsertApplicationSubmission).mockRejectedValueOnce(
       new Error('mongo unavailable')
     )
 

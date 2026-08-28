@@ -1,9 +1,9 @@
 import {
-  EXEMPTION_SUBMISSIONS_COLLECTION,
-  upsertExemptionSubmission
-} from './exemption-submissions.js'
+  APPLICATION_SUBMISSIONS_COLLECTION,
+  upsertApplicationSubmission
+} from './application-submissions.js'
 
-describe('#upsertExemptionSubmission', () => {
+describe('#upsertApplicationSubmission', () => {
   let server
 
   beforeAll(async () => {
@@ -14,7 +14,7 @@ describe('#upsertExemptionSubmission', () => {
   })
 
   beforeEach(async () => {
-    await server.db.collection(EXEMPTION_SUBMISSIONS_COLLECTION).deleteMany({})
+    await server.db.collection(APPLICATION_SUBMISSIONS_COLLECTION).deleteMany({})
   })
 
   afterAll(async () => {
@@ -28,11 +28,11 @@ describe('#upsertExemptionSubmission', () => {
     applicationReference: 'EXE/2026/00012'
   }
 
-  test('Should insert a new exemption submission', async () => {
-    await upsertExemptionSubmission(server.db, record)
+  test('Should insert a new application submission', async () => {
+    await upsertApplicationSubmission(server.db, record)
 
     const stored = await server.db
-      .collection(EXEMPTION_SUBMISSIONS_COLLECTION)
+      .collection(APPLICATION_SUBMISSIONS_COLLECTION)
       .find({ exemptionId: record.exemptionId }, { projection: { _id: 0 } })
       .toArray()
 
@@ -50,14 +50,14 @@ describe('#upsertExemptionSubmission', () => {
   })
 
   test('Should upsert by exemptionId and not create a duplicate', async () => {
-    await upsertExemptionSubmission(server.db, record)
-    await upsertExemptionSubmission(server.db, {
+    await upsertApplicationSubmission(server.db, record)
+    await upsertApplicationSubmission(server.db, {
       ...record,
       applicationReference: 'EXE/2026/00099'
     })
 
     const stored = await server.db
-      .collection(EXEMPTION_SUBMISSIONS_COLLECTION)
+      .collection(APPLICATION_SUBMISSIONS_COLLECTION)
       .find({ exemptionId: record.exemptionId })
       .toArray()
 

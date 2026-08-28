@@ -1,9 +1,9 @@
-export const EXEMPTION_SUBMISSIONS_COLLECTION = 'exemption-submissions'
+export const APPLICATION_SUBMISSIONS_COLLECTION = 'application-submissions'
 
-export async function upsertExemptionSubmission(db, record) {
+export async function upsertApplicationSubmission(db, record) {
   const now = new Date()
 
-  await db.collection(EXEMPTION_SUBMISSIONS_COLLECTION).updateOne(
+  await db.collection(APPLICATION_SUBMISSIONS_COLLECTION).updateOne(
     { exemptionId: record.exemptionId },
     {
       $set: {

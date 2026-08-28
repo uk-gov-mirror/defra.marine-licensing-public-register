@@ -1,7 +1,7 @@
 import { config } from '#/config.js'
 import { parseMessageBody } from '#/common/helpers/sqs/parse-message-body.js'
 import { deletePublicRegisterMessage } from '#/services/public-register-sqs-client.js'
-import { upsertExemptionSubmission } from '#/services/exemption-submissions.js'
+import { upsertApplicationSubmission } from '#/services/application-submissions.js'
 
 const discardMalformedMessage = 'Discarding malformed public register message'
 
@@ -48,6 +48,6 @@ export const processPublicRegisterMessage = async (server, message) => {
     `Received public register message for ${record.applicationReference}`
   )
 
-  await upsertExemptionSubmission(db, record)
+  await upsertApplicationSubmission(db, record)
   await deletePublicRegisterMessage(sqsQueueName, message.ReceiptHandle)
 }
