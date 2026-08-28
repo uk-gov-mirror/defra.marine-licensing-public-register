@@ -14,7 +14,9 @@ describe('#upsertApplicationSubmission', () => {
   })
 
   beforeEach(async () => {
-    await server.db.collection(APPLICATION_SUBMISSIONS_COLLECTION).deleteMany({})
+    await server.db
+      .collection(APPLICATION_SUBMISSIONS_COLLECTION)
+      .deleteMany({})
   })
 
   afterAll(async () => {
