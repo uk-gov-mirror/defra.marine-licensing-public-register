@@ -1,6 +1,6 @@
 # marine-licensing-public-register
 
-Core delivery platform Node.js Backend Template.
+This service stores consented application submissions for the marine licensing public register.
 
 - [Requirements](#requirements)
   - [Node.js](#nodejs)
@@ -27,6 +27,8 @@ Core delivery platform Node.js Backend Template.
   - [About the licence](#about-the-licence)
 
 ## Requirements
+
+The marine licensing backend publishes messages to the `marine_licensing_public_register` SNS topic when an application is submitted with consent to share on the public register. This service consumes those messages from an SQS queue subscribed to the topic, then processes each message and saves the record to MongoDB.
 
 ### Node.js
 
