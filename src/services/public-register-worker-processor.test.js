@@ -17,7 +17,11 @@ const payload = {
   applicationType: 'exemption',
   eventType: 'submitted',
   applicationId: '64f1abc',
-  applicationReference: 'EXE/2026/00012'
+  applicationReference: 'EXE/2026/00012',
+  projectName: 'South coast sea samples',
+  marinePlanAreas: ['South'],
+  dateSubmitted: '2026-03-18T10:00:00.000Z',
+  status: 'Active'
 }
 
 const buildMessage = (body) => ({
