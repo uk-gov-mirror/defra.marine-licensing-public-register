@@ -53,6 +53,12 @@ describe('#upsertApplicationSubmission', () => {
 
   test('Should upsert by applicationId and not create a duplicate', async () => {
     await upsertApplicationSubmission(server.db, record)
+
+    const [original] = await server.db
+      .collection(APPLICATION_SUBMISSIONS_COLLECTION)
+      .find({ applicationId: record.applicationId })
+      .toArray()
+
     await upsertApplicationSubmission(server.db, {
       ...record,
       applicationReference: 'EXE/2026/00099'
@@ -65,6 +71,6 @@ describe('#upsertApplicationSubmission', () => {
 
     expect(stored).toHaveLength(1)
     expect(stored[0].applicationReference).toBe('EXE/2026/00099')
-    expect(stored[0].createdAt).toEqual(stored[0].createdAt)
+    expect(stored[0].createdAt).toEqual(original.createdAt)
   })
 })
