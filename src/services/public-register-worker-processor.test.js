@@ -43,7 +43,12 @@ describe('processPublicRegisterMessage', () => {
     await processPublicRegisterMessage(server, message)
 
     expect(server.logger.info).toHaveBeenCalledWith(
-      payload,
+      {
+        event: {
+          action: 'public-register-message-received',
+          reference: payload.applicationId
+        }
+      },
       'Received public register message for EXE/2026/00012'
     )
     expect(upsertApplicationSubmission).toHaveBeenCalledWith(server.db, payload)

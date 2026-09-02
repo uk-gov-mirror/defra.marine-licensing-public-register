@@ -68,7 +68,12 @@ export const processPublicRegisterMessage = async (server, message) => {
   const record = buildRecordFromMessage(body)
 
   logger.info(
-    record,
+    {
+      event: {
+        action: 'public-register-message-received',
+        reference: record.applicationId
+      }
+    },
     `Received public register message for ${record.applicationReference}`
   )
 
