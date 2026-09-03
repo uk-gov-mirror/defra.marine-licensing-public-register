@@ -1,6 +1,6 @@
 # marine-licensing-public-register
 
-Core delivery platform Node.js Backend Template.
+This service stores consented application submissions for the marine licensing public register.
 
 - [Requirements](#requirements)
   - [Node.js](#nodejs)
@@ -27,6 +27,8 @@ Core delivery platform Node.js Backend Template.
   - [About the licence](#about-the-licence)
 
 ## Requirements
+
+The marine licensing backend publishes messages to the `marine_licensing_public_register` SNS topic when an application is submitted with consent to share on the public register. This service consumes those messages from an SQS queue subscribed to the topic, then processes each message and saves the record to MongoDB.
 
 ### Node.js
 
@@ -205,17 +207,18 @@ docker run -e PORT=3001 -p 3001:3001 marine-licensing-public-register
 
 A local environment with:
 
-- Floci for AWS services (S3, SQS, SNS etc)
 - Redis
 - MongoDB
-- This service.
-- A commented out frontend example.
+- This service
+
+Local SNS/SQS (including the `marine_licensing_public_register` topic, queue, DLQ, and subscription) come from **LocalStack in marine-licensing-backend**. Start that stack first so both services share the `cdp-tenant` Docker network, then:
 
 ```bash
 docker compose up --build -d
 ```
 
-Mock AWS resources can be created when Floci starts up by editing the scripts in `./compose/floci/start.d/`.
+When running this service on the host (`npm run dev`), set `SQS_ENDPOINT=http://localhost:4566` (the default) so it reaches LocalStack via the backend compose port mapping.
+
 MongoDB records can also be created when Mongo starts by editing the scripts in `./compose/mongo/`.
 
 ### Dependabot

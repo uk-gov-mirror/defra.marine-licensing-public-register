@@ -1,19 +1,4 @@
 services:
-  # floci is a replacement for localstack. It emulates AWS resources (sqs, sns, s3 etc) for local development
-  # See: https://floci.io for more details
-  floci:
-    image: hectorvent/floci:latest-aws
-    ports:
-      - '4566:4566'
-    env_file:
-      - 'compose/aws.env'
-    environment:
-      FLOCI_DEFAULT_REGION: eu-west-2
-    volumes:
-      - ./compose/floci/start.d:/etc/floci/init/start.d:ro
-    networks:
-      - cdp-tenant
-
   redis:
     image: redis:7.2.3-alpine3.18
     ports:
@@ -39,6 +24,9 @@ services:
 
   ################################################################################
 
+  # Local AWS (SNS/SQS) is provided by LocalStack from marine-licensing-backend
+  # compose (shared cdp-tenant network). Start that stack first so the
+  # marine_licensing_public_register topic/queue/subscription exist.
   marine-licensing-public-register:
     build:
       context: .
@@ -46,11 +34,8 @@ services:
     ports:
       - '3001:3001'
     links:
-      - 'floci:floci'
       - 'mongodb:mongodb'
     depends_on:
-      floci:
-        condition: service_healthy
       mongodb:
         condition: service_started
     env_file:
@@ -59,6 +44,7 @@ services:
       PORT: 3001
       NODE_ENV: development
       MONGO_URI: mongodb://mongodb:27017/
+      SQS_ENDPOINT: http://localstack:4566
     networks:
       - cdp-tenant
     volumes:
