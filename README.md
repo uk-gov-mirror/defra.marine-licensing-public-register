@@ -116,12 +116,12 @@ git config --global core.autocrlf false
 
 ## API endpoints
 
-| Endpoint                          | Description                                      |
-| :-------------------------------- | :----------------------------------------------- |
-| `GET: /health`                    | Health                                           |
-| `GET: /application-submissions`   | List published application submissions           |
-| `GET: /example`                   | Example API (remove as needed)                   |
-| `GET: /example/<id>`              | Example API (remove as needed)                   |
+| Endpoint                        | Description                            |
+| :------------------------------ | :------------------------------------- |
+| `GET: /health`                  | Health                                 |
+| `GET: /application-submissions` | List published application submissions |
+| `GET: /example`                 | Example API (remove as needed)         |
+| `GET: /example/<id>`            | Example API (remove as needed)         |
 
 ## Development helpers
 

@@ -31,7 +31,10 @@ const buildStoredFields = (record) => {
     storedFields.projectName = record.projectName
   }
 
-  if (Array.isArray(record.marinePlanAreas) && record.marinePlanAreas.length > 0) {
+  if (
+    Array.isArray(record.marinePlanAreas) &&
+    record.marinePlanAreas.length > 0
+  ) {
     storedFields.marinePlanAreas = record.marinePlanAreas
   }
 

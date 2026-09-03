@@ -29,6 +29,9 @@
   },
   "author": "Defra DDTS",
   "license": "OGL-UK-3.0",
+  "overrides": {
+    "@humanfs/node": ">=0.16.8"
+  },
   "dependencies": {
     "@aws-sdk/client-sqs": "3.1109.0",
     "@aws-sdk/credential-providers": "3.1101.0",
